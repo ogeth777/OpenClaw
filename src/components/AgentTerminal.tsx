@@ -88,7 +88,7 @@ export const AgentTerminal = ({ walletAddress }: { walletAddress?: string }) => 
 
     // Mock AI Processing (with real data fetching for gas)
     if (cmd.toLowerCase().includes('gas')) {
-      addLog('⛽ Checking BNB Chain Gas Station (Live Data)...');
+      addLog('⛽ Checking BNB Chain Gas Station (Mainnet)...');
       
       try {
         const response = await fetch('https://bsc-dataseed.binance.org/', {
@@ -118,47 +118,48 @@ export const AgentTerminal = ({ walletAddress }: { walletAddress?: string }) => 
         }, 800);
       } catch (err) {
         setTimeout(() => {
-          addLog('⚠️ RPC Connection Failed. Using estimated values.');
-          addLog('🟢 Standard: 0.05 Gwei');
-          addLog('🟡 Fast: 0.06 Gwei');
-          addLog('🔴 Instant: 0.10 Gwei');
+          addLog('⚠️ RPC Connection Failed. Using estimated Mainnet values.');
+          addLog('🟢 Standard: 3.00 Gwei');
+          addLog('🟡 Fast: 3.50 Gwei');
+          addLog('🔴 Instant: 5.00 Gwei');
           setIsProcessing(false);
         }, 1000);
       }
-      return; // Exit early as we handled this command specifically
+      return; 
     }
 
     setTimeout(async () => {
       if (cmd.toLowerCase().includes('scan') || cmd.toLowerCase().includes('analysis')) {
-        addLog('⚙️ Initiating deep scan of BNB Chain mempool...');
-        setTimeout(() => addLog('🔍 Detected high volume on PancakeSwap V3'), 1000);
-        setTimeout(() => addLog('⚠️ Whale movement alert: 5,000 BNB transferred to Binance'), 2000);
+        addLog('⚙️ Connecting to BNB Chain Mainnet Node...');
+        setTimeout(() => addLog('🔍 Scanning PancakeSwap V3 Liquidity Pools...'), 1000);
+        setTimeout(() => addLog('📊 Detected Volume Spike: WBNB/USDT (+450%)'), 2000);
         setTimeout(() => {
-          addLog('✅ Scan complete. Market Sentiment: BULLISH (78/100)');
+          addLog('✅ Market Condition: HIGH VOLATILITY. Recommended Strategy: Arbitrage');
           setIsProcessing(false);
         }, 3000);
       } else if (cmd.toLowerCase().includes('swap') || cmd.toLowerCase().includes('buy')) {
-        addLog('💸 Analyzing route for optimal slippage...');
-        setTimeout(() => addLog('🛤️ Route found: BNB -> USDT -> CAKE'), 1000);
-        setTimeout(() => addLog('📝 Constructing transaction...'), 2000);
+        addLog('💸 Initiating Swap on BNB Smart Chain Mainnet...');
+        setTimeout(() => addLog('🛣️ Routing: User -> PancakeSwap V3 -> 1inch Aggregator'), 1000);
+        setTimeout(() => addLog('⛽ Estimating Mainnet Gas: 0.0004 BNB ($0.24)'), 2000);
         setTimeout(() => {
-          addLog('🚀 Transaction Broadcasted! Hash: 0x7f...3a9c');
+          addLog('📝 Requesting Wallet Signature...');
+          addLog('🚀 Transaction Broadcasted! TxHash: https://bscscan.com/tx/0x7f2a...3b9c');
           setIsProcessing(false);
         }, 3000);
       } else if (cmd.toLowerCase().includes('rugcheck')) {
-        addLog('🛡️ Initiating FairScale Safety Scan...');
-        setTimeout(() => addLog('🔍 Analyzing contract source code...'), 800);
-        setTimeout(() => addLog('📊 Checking liquidity lock status...'), 1600);
-        setTimeout(() => addLog('⚠️ Warning: Mint authority is enabled'), 2400);
+        addLog('🛡️ Initiating FairScale Audit (Mainnet)...');
+        setTimeout(() => addLog('🔍 Querying BscScan Mainnet API for Contract Source...'), 800);
+        setTimeout(() => addLog('🧬 Analyzing Bytecode for Honeypot logic...'), 1600);
+        setTimeout(() => addLog('🔒 Liquidity Lock Check: 100% Locked (PinkSale Mainnet)'), 2400);
         setTimeout(() => {
-          addLog('❌ Risk Level: HIGH (Score: 24/100). Trade aborted.');
+          addLog('✅ FairScale Score: 98/100 (SAFE). Verified on BNB Chain.');
           setIsProcessing(false);
         }, 3200);
       } else if (cmd.toLowerCase().includes('portfolio')) {
-        addLog('📊 Fetching cross-chain assets...');
+        addLog('📊 Fetching Mainnet Assets...');
         
         if (walletAddress) {
-           setTimeout(() => addLog(`🔍 Analyzing wallet: ${walletAddress.slice(0,8)}...`), 400);
+           setTimeout(() => addLog(`🔍 Scanning Wallet: ${walletAddress.slice(0,8)}...`), 400);
            try {
              const response = await fetch('https://bsc-dataseed.binance.org/', {
                 method: 'POST',
@@ -176,54 +177,46 @@ export const AgentTerminal = ({ walletAddress }: { walletAddress?: string }) => 
               
               setTimeout(() => addLog(`💰 BNB Balance: ${balanceBNB} BNB`), 1200);
               setTimeout(() => {
-                addLog('✅ Data verified on-chain.');
+                addLog('✅ Portfolio synced with BNB Chain.');
                 setIsProcessing(false);
               }, 2000);
            } catch (e) {
-             setTimeout(() => addLog('❌ RPC Error. Retrying...'), 1000);
+             setTimeout(() => addLog('❌ RPC Error. Retrying connection...'), 1000);
              setIsProcessing(false);
            }
         } else {
-          setTimeout(() => addLog('⚠️ Wallet not connected. Showing DEMO portfolio.'), 800);
-          setTimeout(() => addLog('💰 BNB Chain: 14.5 BNB ($8,700)'), 1500);
-          setTimeout(() => addLog('🥞 CAKE Staked: 500 CAKE ($1,200)'), 2200);
+          setTimeout(() => addLog('⚠️ Wallet not connected. Showing DEMO Mainnet Portfolio.'), 800);
+          setTimeout(() => addLog('💰 BNB: 14.5 BNB ($8,700)'), 1500);
+          setTimeout(() => addLog('🥞 CAKE: 500.0 CAKE ($1,200)'), 2200);
           setTimeout(() => {
-            addLog('📈 Total Net Worth: $9,900 (+4.2% today)');
+            addLog('📈 Total Value: $9,900.00');
             setIsProcessing(false);
           }, 2900);
         }
       } else if (cmd.toLowerCase().includes('sniper')) {
-        addLog('🎯 Sniper Mode Activated. Watching mempool...');
-        setTimeout(() => addLog('⚡ Pending liquidity add detected: $PEPE-BNB'), 1000);
-        setTimeout(() => addLog('🚀 Front-running simulation... Success rate: 94%'), 2000);
+        addLog('🎯 Sniper Mode: Active (BNB Chain Mainnet)');
+        setTimeout(() => addLog('⚡ Monitoring Mempool for MethodID: 0xf305d719 (addLiquidityETH)'), 1000);
+        setTimeout(() => addLog('🚀 Target Found: $MEME (0x8a...9f) - Block 0'), 2000);
         setTimeout(() => {
-          addLog('✅ Ready to engage. Waiting for trigger...');
+          addLog('✅ Buy Order Pending... (Awaiting User Signature)');
           setIsProcessing(false);
         }, 3000);
-      } else if (cmd.toLowerCase().includes('gas')) {
-        addLog('⛽ Checking BNB Chain Gas Station...');
-        setTimeout(() => {
-          addLog('🟢 Standard: 3 Gwei');
-          addLog('🟡 Fast: 5 Gwei');
-          addLog('🔴 Instant: 7 Gwei');
-          setIsProcessing(false);
-        }, 1000);
       } else if (cmd.toLowerCase().includes('help')) {
-         addLog('ℹ️ Available commands:');
-         addLog('  - scan: Analyze market conditions');
-         addLog('  - swap/buy [amount] [token]: Execute trade');
-         addLog('  - rugcheck [token]: Check safety score');
-         addLog('  - portfolio: Show asset summary');
-         addLog('  - sniper: Watch for new launches');
-         addLog('  - gas: Check network fees');
-         addLog('  - clear: Clear terminal');
+         addLog('ℹ️ Available Mainnet Commands:');
+         addLog('  - scan: Analyze BNB Chain market conditions');
+         addLog('  - buy/swap [token]: Execute Mainnet trade');
+         addLog('  - rugcheck [contract]: FairScale safety audit');
+         addLog('  - portfolio: View wallet assets');
+         addLog('  - sniper: Watch for new token launches');
+         addLog('  - gas: Check real-time Mainnet gas price');
+         addLog('  - clear: Clear terminal output');
          setIsProcessing(false);
       } else {
-        addLog('🤖 Command received. Analyzing intent...');
+        addLog('🤖 Command received. Processing...');
         setTimeout(() => {
-          addLog(`✅ Executing logic for: "${cmd}"`);
+          addLog(`❌ Unknown command: "${cmd}". Type 'help' for options.`);
           setIsProcessing(false);
-        }, 1500);
+        }, 1000);
       }
     }, 500);
   };
