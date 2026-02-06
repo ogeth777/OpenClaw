@@ -43,9 +43,9 @@ function App() {
               <div className="relative w-16 h-16 group">
                 <div className="absolute inset-0 bg-cyber-cyan rounded-xl blur opacity-40 group-hover:opacity-60 transition-opacity animate-pulse"></div>
                 <img 
-                  src="/logo.jpg" 
+                  src="/logo.svg" 
                   alt="OpenClaw Logo" 
-                  className="relative w-full h-full rounded-xl border border-cyber-cyan/50 object-cover shadow-2xl"
+                  className="relative w-full h-full rounded-xl border border-cyber-cyan/50 object-cover shadow-2xl p-1 bg-black"
                 />
                 <div className="absolute -bottom-2 -right-2 w-6 h-6 bg-black rounded-full border border-bnb-yellow flex items-center justify-center z-20">
                   <img src="/bnb.svg" alt="BNB" className="w-4 h-4 animate-spin-slow" />

@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="cyber-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#00f0ff;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#7000ff;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#ff003c;stop-opacity:1" />
+    </linearGradient>
+    <filter id="neon-glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="5" result="blur5"/>
+      <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur10"/>
+      <feMerge>
+        <feMergeNode in="blur10"/>
+        <feMergeNode in="blur5"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Background -->
+  <rect x="0" y="0" width="512" height="512" fill="#050505"/>
+  <rect x="20" y="20" width="472" height="472" rx="80" fill="none" stroke="url(#cyber-grad)" stroke-width="8" opacity="0.5"/>
+  
+  <!-- Cyber Claw / Abstract Shape -->
+  <g transform="translate(256, 256)">
+    <!-- Outer Ring Segments -->
+    <path d="M-180 -60 A 190 190 0 0 1 180 -60" fill="none" stroke="#00f0ff" stroke-width="12" stroke-linecap="round" filter="url(#neon-glow)"/>
+    <path d="M180 60 A 190 190 0 0 1 -180 60" fill="none" stroke="#ff003c" stroke-width="12" stroke-linecap="round" filter="url(#neon-glow)"/>
+    
+    <!-- Central Claw Marks -->
+    <path d="M-80 -100 L -20 100" stroke="#00f0ff" stroke-width="25" stroke-linecap="round" filter="url(#neon-glow)"/>
+    <path d="M0 -120 L 0 120" stroke="#f0b90b" stroke-width="25" stroke-linecap="round" filter="url(#neon-glow)"/>
+    <path d="M80 -100 L 20 100" stroke="#ff003c" stroke-width="25" stroke-linecap="round" filter="url(#neon-glow)"/>
+    
+    <!-- Tech Details -->
+    <circle cx="0" cy="0" r="40" fill="#050505" stroke="#fff" stroke-width="2"/>
+    <circle cx="0" cy="0" r="15" fill="#fff" filter="url(#neon-glow)"/>
+  </g>
+</svg>
