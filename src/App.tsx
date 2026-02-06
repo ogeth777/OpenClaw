@@ -1,37 +1,48 @@
 import React from 'react';
 import { AgentTerminal } from './components/AgentTerminal';
 import { Dashboard } from './components/Dashboard';
-import { Cpu, Zap, Globe } from 'lucide-react';
+import { LiveBackground } from './components/LiveBackground';
+import { Zap } from 'lucide-react';
 
 function App() {
   const [isConnected, setIsConnected] = React.useState(false);
 
   return (
-    <div className="min-h-screen bg-[url('https://images.unsplash.com/photo-1535868463750-c78d9543614f?q=80&w=2076&auto=format&fit=crop')] bg-cover bg-center bg-fixed bg-no-repeat relative">
-      {/* Dark Overlay */}
-      <div className="absolute inset-0 bg-cyber-dark/90 backdrop-blur-sm" />
-
+    <div className="min-h-screen relative text-white">
+      <LiveBackground />
+      
       {/* Content */}
       <div className="relative z-10 container mx-auto px-4 py-8">
         
         {/* Header */}
         <header className="flex flex-col md:flex-row justify-between items-center mb-12 gap-6 md:gap-0">
           <div className="flex items-center gap-4">
-            <div className="w-12 h-12 bg-bnb-yellow/20 rounded-xl flex items-center justify-center border border-bnb-yellow/50 shadow-[0_0_15px_rgba(240,185,11,0.3)]">
-              <Cpu className="w-7 h-7 text-bnb-yellow" />
+            <div className="relative w-16 h-16 group">
+              <div className="absolute inset-0 bg-cyber-cyan rounded-xl blur opacity-40 group-hover:opacity-60 transition-opacity animate-pulse"></div>
+              <img 
+                src="/logo.jpg" 
+                alt="OpenClaw Logo" 
+                className="relative w-full h-full rounded-xl border border-cyber-cyan/50 object-cover shadow-2xl"
+              />
+              <div className="absolute -bottom-2 -right-2 w-6 h-6 bg-black rounded-full border border-bnb-yellow flex items-center justify-center z-20">
+                <img src="/bnb.svg" alt="BNB" className="w-4 h-4 animate-spin-slow" />
+              </div>
             </div>
             <div>
-              <h1 className="text-2xl font-bold text-white tracking-widest flex items-center gap-2">
-                OPEN<span className="text-cyber-cyan">CLAW</span>
+              <h1 className="text-3xl font-bold tracking-widest flex items-center gap-2">
+                OPEN<span className="text-cyber-cyan drop-shadow-[0_0_10px_rgba(0,240,255,0.8)]">CLAW</span>
               </h1>
-              <div className="text-xs text-gray-400 font-mono tracking-[0.2em]">BNB AUTONOMOUS AGENT</div>
+              <div className="text-xs text-gray-400 font-mono tracking-[0.3em] flex items-center gap-2">
+                <span className="w-2 h-2 bg-bnb-yellow rounded-full animate-pulse"></span>
+                BNB AUTONOMOUS AGENT
+              </div>
             </div>
           </div>
 
           <div className="flex items-center gap-4">
-             <button className="hidden md:flex items-center gap-2 px-4 py-2 rounded-lg bg-white/5 border border-white/10 hover:border-cyber-cyan/50 transition-colors">
-              <Globe className="w-4 h-4 text-gray-400" />
-              <span className="text-sm text-gray-300">BNB Chain</span>
+             <button className="hidden md:flex items-center gap-2 px-4 py-2 rounded-lg bg-black/40 border border-white/10 hover:border-bnb-yellow/50 transition-colors backdrop-blur-md group">
+              <img src="/bnb.svg" alt="BNB" className="w-5 h-5 group-hover:scale-110 transition-transform" />
+              <span className="text-sm text-gray-300 group-hover:text-bnb-yellow transition-colors">BNB Chain Mainnet</span>
             </button>
             <button 
               onClick={() => setIsConnected(!isConnected)}
@@ -109,6 +120,20 @@ function App() {
           </div>
 
         </main>
+      </div>
+      {/* Floating BNB Badge */}
+      <div className="fixed bottom-6 right-6 z-50 group cursor-pointer">
+        <div className="absolute inset-0 bg-bnb-yellow/20 rounded-full blur-xl opacity-0 group-hover:opacity-50 transition-opacity duration-500"></div>
+        <div className="relative flex items-center gap-3 px-5 py-3 bg-black/40 backdrop-blur-xl border border-white/10 rounded-full shadow-2xl hover:border-bnb-yellow/50 transition-all transform group-hover:scale-105">
+          <div className="relative w-8 h-8">
+            <div className="absolute inset-0 bg-bnb-yellow rounded-full blur opacity-20 animate-pulse"></div>
+            <img src="/bnb.svg" alt="BNB" className="relative w-full h-full animate-spin-slow" />
+          </div>
+          <div className="flex flex-col">
+            <span className="text-[10px] text-gray-400 font-mono leading-none tracking-wider uppercase">Built on</span>
+            <span className="text-sm font-bold text-white tracking-wide group-hover:text-bnb-yellow transition-colors">BNB Chain</span>
+          </div>
+        </div>
       </div>
     </div>
   );
