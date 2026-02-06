@@ -4,13 +4,13 @@ import { useState, useEffect } from 'react';
 export const Dashboard = ({ walletAddress }: { walletAddress?: string }) => {
   const [gasPrice, setGasPrice] = useState<string>('3.1');
   const [blockNumber, setBlockNumber] = useState<string>('35124156');
-  const [balance, setBalance] = useState<{ bnb: string; usd: string }>({ bnb: '45.2', usd: '12,450.00' });
+  const [balance, setBalance] = useState<{ bnb: string; usd: string }>({ bnb: '0.0000', usd: '0.00' });
 
   useEffect(() => {
     const fetchBalance = async () => {
       if (!walletAddress) {
-        // Reset to demo data if disconnected
-        setBalance({ bnb: '45.2', usd: '12,450.00' });
+        // Reset to zero if disconnected
+        setBalance({ bnb: '0.0000', usd: '0.00' });
         return;
       }
 
@@ -98,7 +98,7 @@ export const Dashboard = ({ walletAddress }: { walletAddress?: string }) => {
           <div className="p-2 bg-bnb-yellow/10 rounded-lg">
             <Wallet className="w-5 h-5 text-bnb-yellow" />
           </div>
-          <span className="text-xs text-green-400 font-mono">+2.4%</span>
+          <span className="text-xs text-green-400 font-mono">{walletAddress ? '+2.4%' : '0.0%'}</span>
         </div>
         <div className="text-gray-400 text-xs uppercase tracking-wider mb-1">Total Balance</div>
         <div className="text-2xl font-bold text-white">${balance.usd}</div>
