@@ -20,7 +20,7 @@ export const AgentTerminal = () => {
     setLogs(prev => [...prev, `[${new Date().toLocaleTimeString()}] ${text}`]);
   };
 
-  const handleCommand = (e: React.FormEvent) => {
+  const handleCommand = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!input.trim()) return;
     
@@ -35,7 +35,48 @@ export const AgentTerminal = () => {
     addLog(`> User: ${cmd}`);
     setIsProcessing(true);
 
-    // Mock AI Processing
+    // Mock AI Processing (with real data fetching for gas)
+    if (cmd.toLowerCase().includes('gas')) {
+      addLog('⛽ Checking BNB Chain Gas Station (Live Data)...');
+      
+      try {
+        const response = await fetch('https://bsc-dataseed.binance.org/', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            jsonrpc: '2.0',
+            method: 'eth_gasPrice',
+            params: [],
+            id: 1
+          })
+        });
+        
+        const data = await response.json();
+        const gasPriceWei = parseInt(data.result, 16);
+        const gasPriceGwei = gasPriceWei / 1e9;
+        
+        const standard = gasPriceGwei;
+        const fast = standard * 1.1; 
+        const instant = standard * 1.5;
+
+        setTimeout(() => {
+          addLog(`🟢 Standard: ${standard.toFixed(2)} Gwei`);
+          addLog(`🟡 Fast: ${fast.toFixed(2)} Gwei`);
+          addLog(`🔴 Instant: ${instant.toFixed(2)} Gwei`);
+          setIsProcessing(false);
+        }, 800);
+      } catch (err) {
+        setTimeout(() => {
+          addLog('⚠️ RPC Connection Failed. Using estimated values.');
+          addLog('🟢 Standard: 0.05 Gwei');
+          addLog('🟡 Fast: 0.06 Gwei');
+          addLog('🔴 Instant: 0.10 Gwei');
+          setIsProcessing(false);
+        }, 1000);
+      }
+      return; // Exit early as we handled this command specifically
+    }
+
     setTimeout(() => {
       if (cmd.toLowerCase().includes('scan') || cmd.toLowerCase().includes('analysis')) {
         addLog('⚙️ Initiating deep scan of BNB Chain mempool...');
