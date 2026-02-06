@@ -1,66 +1,73 @@
-# OpenClaw: BNB Autonomous Agent 🤖💎
+# React + TypeScript + Vite
 
-> **Winner of BNB Chain Hackathon (The Hand Track)** & **Fairathon Participant**
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-OpenClaw is an advanced autonomous AI agent that manages DeFi portfolios on BNB Chain through a natural language terminal interface. Built with the "OODA Loop" architecture (Observe-Orient-Decide-Act), it moves beyond simple chatbots to become a true on-chain actor.
+Currently, two official plugins are available:
 
-![License](https://img.shields.io/badge/license-MIT-blue.svg)
-![Status](https://img.shields.io/badge/status-stable-green.svg)
-![Tech](https://img.shields.io/badge/tech-React%20%7C%20Vite%20%7C%20Tailwind-cyan.svg)
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-## 🚀 Key Features
+## React Compiler
 
-*   **🧠 Autonomous OODA Loop**: Real-time decision making based on market conditions.
-*   **💬 Natural Language Terminal**: Command your wallet like a pro hacker (`scan mempool`, `buy 1 BNB`).
-*   **🛡️ FairScale Integration**: Built-in Trust Score verification for safe DeFi interactions.
-*   **✨ Cyberpunk Glassmorphism UI**: A Hollywood-grade interface that feels like the future.
-*   **⚡ Blazing Fast**: Powered by Vite + React 19 for instant interactions.
+The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
 
-## 🛠️ Tech Stack
+## Expanding the ESLint configuration
 
-*   **Frontend**: React 19, TypeScript, Vite
-*   **Styling**: Tailwind CSS v3, Custom Neon Design System
-*   **Animations**: Framer Motion
-*   **Icons**: Lucide React
-*   **Chain**: BNB Smart Chain (Simulated Integration)
+If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
 
-## 🏁 Getting Started
+```js
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
 
-1.  **Clone the repo**
-    ```bash
-    git clone https://github.com/your-username/bnb-openclaw.git
-    cd bnb-openclaw
-    ```
+      // Remove tseslint.configs.recommended and replace with this
+      tseslint.configs.recommendedTypeChecked,
+      // Alternatively, use this for stricter rules
+      tseslint.configs.strictTypeChecked,
+      // Optionally, add this for stylistic rules
+      tseslint.configs.stylisticTypeChecked,
 
-2.  **Install dependencies**
-    ```bash
-    npm install
-    ```
+      // Other configs...
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
+```
 
-3.  **Run Development Server**
-    ```bash
-    npm run dev
-    ```
+You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
 
-4.  **Build for Production**
-    ```bash
-    npm run build
-    ```
+```js
+// eslint.config.js
+import reactX from 'eslint-plugin-react-x'
+import reactDom from 'eslint-plugin-react-dom'
 
-## 🎮 Commands to Try
-
-Open the Agent Terminal and type:
-*   `scan` - Initiates a deep scan of the BNB mempool.
-*   `buy 1 BNB` - Simulates an optimal route swap via PancakeSwap.
-*   `help` - Shows all available commands.
-
-## 🏆 Hackathon Context
-
-This project was built specifically for the **BNB Chain Hackathon** and **Fairathon**. It demonstrates:
-*   **Tool Use**: The agent effectively uses simulated blockchain tools.
-*   **User Experience**: A radically better way to interact with DeFi.
-*   **Innovation**: Merging AI Agents with high-speed blockchain infrastructure.
-
----
-
-*Built with ❤️ by the VibeCode Team*
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
+      // Enable lint rules for React
+      reactX.configs['recommended-typescript'],
+      // Enable lint rules for React DOM
+      reactDom.configs.recommended,
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
+```

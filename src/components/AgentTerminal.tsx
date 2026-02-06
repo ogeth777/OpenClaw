@@ -36,6 +36,29 @@ export const AgentTerminal = () => {
     return () => clearInterval(interval);
   }, []);
 
+  useEffect(() => {
+    const autonomousThoughts = [
+      "Scanning BSC mempool for new liquidity pairs...",
+      "Analyzing volume/liquidity ratio for top 20 tokens...",
+      "Monitoring whale wallet 0x4f...a12b",
+      "Calculated FairScale Trust Score for 5 new contracts.",
+      "Arbitrage scan: No profitable paths found > 0.5% slippage.",
+      "Syncing with BSC mainnet block height...",
+      "Updating gas price heuristics...",
+      "Verifying contract source code on BscScan..."
+    ];
+
+    const interval = setInterval(() => {
+      // 30% chance to log something every 8 seconds
+      if (Math.random() > 0.7) {
+        const randomThought = autonomousThoughts[Math.floor(Math.random() * autonomousThoughts.length)];
+        setLogs(prev => [...prev, `[${new Date().toLocaleTimeString()}] [SYSTEM] ${randomThought}`]);
+      }
+    }, 8000);
+
+    return () => clearInterval(interval);
+  }, []);
+
   const scrollToBottom = () => {
     logsEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };

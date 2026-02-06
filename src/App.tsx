@@ -2,6 +2,7 @@ import React from 'react';
 import { AgentTerminal } from './components/AgentTerminal';
 import { Dashboard } from './components/Dashboard';
 import { LiveBackground } from './components/LiveBackground';
+import { LiveTicker } from './components/LiveTicker';
 import { Zap } from 'lucide-react';
 
 function App() {
@@ -9,6 +10,7 @@ function App() {
 
   return (
     <div className="min-h-screen relative text-white">
+      <div className="scanline" />
       <LiveBackground />
       
       {/* Content */}
@@ -54,7 +56,9 @@ function App() {
             >
               {isConnected ? '0x7F...3A9C' : 'CONNECT WALLET'}
             </button>
+</div>
           </div>
+          <LiveTicker />
         </header>
 
         {/* Main Grid */}
