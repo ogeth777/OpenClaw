@@ -158,7 +158,7 @@ export const AgentTerminal = () => {
       } else if (cmd.toLowerCase().includes('help')) {
          addLog('ℹ️ Available commands:');
          addLog('  - scan: Analyze market conditions');
-         addLog('  - buy [amount] [token]: Execute swap');
+         addLog('  - swap/buy [amount] [token]: Execute trade');
          addLog('  - rugcheck [token]: Check safety score');
          addLog('  - portfolio: Show asset summary');
          addLog('  - sniper: Watch for new launches');
