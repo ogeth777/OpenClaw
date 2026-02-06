@@ -1,73 +1,55 @@
-# React + TypeScript + Vite
+# 🦁 OpenClaw - BNB Autonomous Agent
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+![OpenClaw Banner](public/logo.jpg)
 
-Currently, two official plugins are available:
+> **"In the neon-lit jungle of DeFi, OpenClaw never sleeps."**
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+OpenClaw is a next-generation AI Agent built for the **BNB Chain Hackathon**, designed to autonomously navigate the DeFi ecosystem with precision, speed, and transparency. Powered by an OODA (Observe-Orient-Decide-Act) Loop architecture, it executes strategies ranging from Liquidity Provision to Arbitrage while maintaining a "Good Vibes" safety profile via FairScale integration.
 
-## React Compiler
+## 🚀 Key Features
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+-   **🧠 Autonomous OODA Core**: Real-time market decision-making loop.
+-   **💎 BNB Chain Native**: Deep integration with BNB Chain Mainnet.
+-   **🛡️ FairScale Trust Score**: Automated safety checks and rug-pull protection.
+-   **🎨 Cyberpunk Glassmorphism UI**: A stunning, immersive interface for monitoring agent thought processes.
+-   **⚡ Real-Time Dashboard**: Live PnL tracking, active strategy visualization, and wallet integration.
 
-## Expanding the ESLint configuration
+## 🛠️ Tech Stack
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+-   **Framework**: React 19 + Vite
+-   **Language**: TypeScript
+-   **Styling**: Tailwind CSS (Custom Cyberpunk Config)
+-   **Icons**: Lucide React
+-   **Animation**: Native CSS Animations + Pulse Effects
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## 📦 Installation
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+1.  **Clone the repository**
+    ```bash
+    git clone https://github.com/ogeth777/OpenClaw.git
+    cd OpenClaw
+    ```
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+2.  **Install dependencies**
+    ```bash
+    npm install
+    ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+3.  **Run Development Server**
+    ```bash
+    npm run dev
+    ```
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+4.  **Build for Production**
+    ```bash
+    npm run build
+    ```
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## 🏆 Hackathon Tracks
+
+-   **BNB Chain**: Building the future of autonomous on-chain agents.
+-   **Good Vibes**: Ensuring user safety and positive community impact through transparent AI logic.
+
+---
+
+*Built with ⚡ by the OpenClaw Team*
