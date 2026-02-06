@@ -53,12 +53,48 @@ export const AgentTerminal = () => {
           addLog('🚀 Transaction Broadcasted! Hash: 0x7f...3a9c');
           setIsProcessing(false);
         }, 3000);
+      } else if (cmd.toLowerCase().includes('rugcheck')) {
+        addLog('🛡️ Initiating FairScale Safety Scan...');
+        setTimeout(() => addLog('🔍 Analyzing contract source code...'), 800);
+        setTimeout(() => addLog('📊 Checking liquidity lock status...'), 1600);
+        setTimeout(() => addLog('⚠️ Warning: Mint authority is enabled'), 2400);
+        setTimeout(() => {
+          addLog('❌ Risk Level: HIGH (Score: 24/100). Trade aborted.');
+          setIsProcessing(false);
+        }, 3200);
+      } else if (cmd.toLowerCase().includes('portfolio')) {
+        addLog('📊 Fetching cross-chain assets...');
+        setTimeout(() => addLog('💰 BNB Chain: 14.5 BNB ($8,700)'), 800);
+        setTimeout(() => addLog('🥞 CAKE Staked: 500 CAKE ($1,200)'), 1500);
+        setTimeout(() => {
+          addLog('📈 Total Net Worth: $9,900 (+4.2% today)');
+          setIsProcessing(false);
+        }, 2200);
+      } else if (cmd.toLowerCase().includes('sniper')) {
+        addLog('🎯 Sniper Mode Activated. Watching mempool...');
+        setTimeout(() => addLog('⚡ Pending liquidity add detected: $PEPE-BNB'), 1000);
+        setTimeout(() => addLog('🚀 Front-running simulation... Success rate: 94%'), 2000);
+        setTimeout(() => {
+          addLog('✅ Ready to engage. Waiting for trigger...');
+          setIsProcessing(false);
+        }, 3000);
+      } else if (cmd.toLowerCase().includes('gas')) {
+        addLog('⛽ Checking BNB Chain Gas Station...');
+        setTimeout(() => {
+          addLog('🟢 Standard: 3 Gwei');
+          addLog('🟡 Fast: 5 Gwei');
+          addLog('🔴 Instant: 7 Gwei');
+          setIsProcessing(false);
+        }, 1000);
       } else if (cmd.toLowerCase().includes('help')) {
          addLog('ℹ️ Available commands:');
          addLog('  - scan: Analyze market conditions');
          addLog('  - buy [amount] [token]: Execute swap');
+         addLog('  - rugcheck [token]: Check safety score');
+         addLog('  - portfolio: Show asset summary');
+         addLog('  - sniper: Watch for new launches');
+         addLog('  - gas: Check network fees');
          addLog('  - clear: Clear terminal');
-         addLog('  - status: Check agent health');
          setIsProcessing(false);
       } else {
         addLog('🤖 Command received. Analyzing intent...');
