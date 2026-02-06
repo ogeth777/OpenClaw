@@ -1,6 +1,54 @@
 import { Shield, TrendingUp, Wallet, Activity } from 'lucide-react';
+import { useState, useEffect } from 'react';
 
 export const Dashboard = () => {
+  const [gasPrice, setGasPrice] = useState<string>('3.1');
+  const [blockNumber, setBlockNumber] = useState<string>('35124156');
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // Fetch Gas Price
+        const gasResponse = await fetch('https://bsc-dataseed.binance.org/', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            jsonrpc: '2.0',
+            method: 'eth_gasPrice',
+            params: [],
+            id: 1
+          })
+        });
+        const gasData = await gasResponse.json();
+        const gasPriceWei = parseInt(gasData.result, 16);
+        const gasPriceGwei = (gasPriceWei / 1e9).toFixed(2);
+        setGasPrice(gasPriceGwei);
+
+        // Fetch Block Number
+        const blockResponse = await fetch('https://bsc-dataseed.binance.org/', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            jsonrpc: '2.0',
+            method: 'eth_blockNumber',
+            params: [],
+            id: 1
+          })
+        });
+        const blockData = await blockResponse.json();
+        const currentBlock = parseInt(blockData.result, 16);
+        setBlockNumber(currentBlock.toString());
+
+      } catch (err) {
+        console.error('Failed to fetch network data:', err);
+      }
+    };
+
+    fetchData();
+    const interval = setInterval(fetchData, 5000); // Update every 5 seconds
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
       {/* Metric Card 1: Portfolio */}
@@ -54,11 +102,13 @@ export const Dashboard = () => {
           <div className="p-2 bg-cyber-pink/10 rounded-lg">
             <Activity className="w-5 h-5 text-cyber-pink" />
           </div>
-          <span className="text-xs text-cyber-pink font-mono">LOW GAS</span>
+          <span className="text-xs text-cyber-pink font-mono">
+            {parseFloat(gasPrice) < 3 ? 'LOW GAS' : parseFloat(gasPrice) < 5 ? 'NORMAL' : 'HIGH GAS'}
+          </span>
         </div>
         <div className="text-gray-400 text-xs uppercase tracking-wider mb-1">BNB Chain Status</div>
-        <div className="text-2xl font-bold text-white">3.1 Gwei</div>
-        <div className="text-xs text-gray-500 mt-1">Block: #35124156</div>
+        <div className="text-2xl font-bold text-white">{gasPrice} Gwei</div>
+        <div className="text-xs text-gray-500 mt-1">Block: #{blockNumber}</div>
       </div>
     </div>
   );
