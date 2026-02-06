@@ -87,7 +87,7 @@ function App() {
           
           {/* Left Column: Dashboard & Status */}
           <div className="lg:col-span-2 space-y-8">
-            <Dashboard />
+            <Dashboard walletAddress={isConnected ? walletAddress : undefined} />
             
             {/* Active Strategies */}
             <div className="glass-panel p-6 rounded-xl">

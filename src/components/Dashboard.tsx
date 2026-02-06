@@ -1,9 +1,49 @@
 import { Shield, TrendingUp, Wallet, Activity } from 'lucide-react';
 import { useState, useEffect } from 'react';
 
-export const Dashboard = () => {
+export const Dashboard = ({ walletAddress }: { walletAddress?: string }) => {
   const [gasPrice, setGasPrice] = useState<string>('3.1');
   const [blockNumber, setBlockNumber] = useState<string>('35124156');
+  const [balance, setBalance] = useState<{ bnb: string; usd: string }>({ bnb: '45.2', usd: '12,450.00' });
+
+  useEffect(() => {
+    const fetchBalance = async () => {
+      if (!walletAddress) {
+        // Reset to demo data if disconnected
+        setBalance({ bnb: '45.2', usd: '12,450.00' });
+        return;
+      }
+
+      try {
+        const response = await fetch('https://bsc-dataseed.binance.org/', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            jsonrpc: '2.0',
+            method: 'eth_getBalance',
+            params: [walletAddress, "latest"],
+            id: 1
+          })
+        });
+        const data = await response.json();
+        const balanceWei = parseInt(data.result, 16);
+        const bnbVal = balanceWei / 1e18;
+        const bnbStr = bnbVal.toFixed(4);
+        
+        // Approximate USD value (BNB ~ $620)
+        const usdVal = (bnbVal * 620).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        
+        setBalance({ bnb: bnbStr, usd: usdVal });
+      } catch (err) {
+        console.error('Failed to fetch balance:', err);
+      }
+    };
+
+    fetchBalance();
+    // Refresh balance every 10 seconds
+    const interval = setInterval(fetchBalance, 10000);
+    return () => clearInterval(interval);
+  }, [walletAddress]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -61,8 +101,8 @@ export const Dashboard = () => {
           <span className="text-xs text-green-400 font-mono">+2.4%</span>
         </div>
         <div className="text-gray-400 text-xs uppercase tracking-wider mb-1">Total Balance</div>
-        <div className="text-2xl font-bold text-white">$12,450.00</div>
-        <div className="text-xs text-gray-500 mt-1">45.2 BNB</div>
+        <div className="text-2xl font-bold text-white">${balance.usd}</div>
+        <div className="text-xs text-gray-500 mt-1">{balance.bnb} BNB</div>
       </div>
 
       {/* Metric Card 2: FairScore */}
