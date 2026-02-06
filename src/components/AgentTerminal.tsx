@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Terminal, Shield, Wallet, Zap, Activity, Globe, Cpu } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { Terminal } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 export const AgentTerminal = () => {
   const [logs, setLogs] = useState<string[]>([]);

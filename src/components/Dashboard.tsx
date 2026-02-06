@@ -1,4 +1,3 @@
-import React from 'react';
 import { Shield, TrendingUp, Wallet, Activity } from 'lucide-react';
 
 export const Dashboard = () => {
