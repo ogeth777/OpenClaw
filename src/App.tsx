@@ -17,46 +17,47 @@ function App() {
       <div className="relative z-10 container mx-auto px-4 py-8">
         
         {/* Header */}
-        <header className="flex flex-col md:flex-row justify-between items-center mb-12 gap-6 md:gap-0">
-          <div className="flex items-center gap-4">
-            <div className="relative w-16 h-16 group">
-              <div className="absolute inset-0 bg-cyber-cyan rounded-xl blur opacity-40 group-hover:opacity-60 transition-opacity animate-pulse"></div>
-              <img 
-                src="/logo.jpg" 
-                alt="OpenClaw Logo" 
-                className="relative w-full h-full rounded-xl border border-cyber-cyan/50 object-cover shadow-2xl"
-              />
-              <div className="absolute -bottom-2 -right-2 w-6 h-6 bg-black rounded-full border border-bnb-yellow flex items-center justify-center z-20">
-                <img src="/bnb.svg" alt="BNB" className="w-4 h-4 animate-spin-slow" />
+        <header className="flex flex-col gap-6 mb-12">
+          <div className="flex flex-col md:flex-row justify-between items-center w-full">
+            <div className="flex items-center gap-4">
+              <div className="relative w-16 h-16 group">
+                <div className="absolute inset-0 bg-cyber-cyan rounded-xl blur opacity-40 group-hover:opacity-60 transition-opacity animate-pulse"></div>
+                <img 
+                  src="/logo.jpg" 
+                  alt="OpenClaw Logo" 
+                  className="relative w-full h-full rounded-xl border border-cyber-cyan/50 object-cover shadow-2xl"
+                />
+                <div className="absolute -bottom-2 -right-2 w-6 h-6 bg-black rounded-full border border-bnb-yellow flex items-center justify-center z-20">
+                  <img src="/bnb.svg" alt="BNB" className="w-4 h-4 animate-spin-slow" />
+                </div>
+              </div>
+              <div>
+                <h1 className="text-3xl font-bold tracking-widest flex items-center gap-2">
+                  OPEN<span className="text-cyber-cyan drop-shadow-[0_0_10px_rgba(0,240,255,0.8)]">CLAW</span>
+                </h1>
+                <div className="text-xs text-gray-400 font-mono tracking-[0.3em] flex items-center gap-2">
+                  <span className="w-2 h-2 bg-bnb-yellow rounded-full animate-pulse"></span>
+                  BNB AUTONOMOUS AGENT
+                </div>
               </div>
             </div>
-            <div>
-              <h1 className="text-3xl font-bold tracking-widest flex items-center gap-2">
-                OPEN<span className="text-cyber-cyan drop-shadow-[0_0_10px_rgba(0,240,255,0.8)]">CLAW</span>
-              </h1>
-              <div className="text-xs text-gray-400 font-mono tracking-[0.3em] flex items-center gap-2">
-                <span className="w-2 h-2 bg-bnb-yellow rounded-full animate-pulse"></span>
-                BNB AUTONOMOUS AGENT
-              </div>
-            </div>
-          </div>
 
-          <div className="flex items-center gap-4">
-             <button className="hidden md:flex items-center gap-2 px-4 py-2 rounded-lg bg-black/40 border border-white/10 hover:border-bnb-yellow/50 transition-colors backdrop-blur-md group">
-              <img src="/bnb.svg" alt="BNB" className="w-5 h-5 group-hover:scale-110 transition-transform" />
-              <span className="text-sm text-gray-300 group-hover:text-bnb-yellow transition-colors">BNB Chain Mainnet</span>
-            </button>
-            <button 
-              onClick={() => setIsConnected(!isConnected)}
-              className={`px-6 py-2 border font-bold rounded-lg transition-all shadow-[0_0_15px_rgba(0,240,255,0.2)] hover:shadow-[0_0_25px_rgba(0,240,255,0.4)] ${
-                isConnected 
-                  ? 'bg-green-500/10 border-green-500/50 text-green-400' 
-                  : 'bg-cyber-cyan/10 hover:bg-cyber-cyan/20 border-cyber-cyan/50 text-cyber-cyan'
-              }`}
-            >
-              {isConnected ? '0x7F...3A9C' : 'CONNECT WALLET'}
-            </button>
-</div>
+            <div className="flex items-center gap-4">
+              <button className="hidden md:flex items-center gap-2 px-4 py-2 rounded-lg bg-black/40 border border-white/10 hover:border-bnb-yellow/50 transition-colors backdrop-blur-md group">
+                <img src="/bnb.svg" alt="BNB" className="w-5 h-5 group-hover:scale-110 transition-transform" />
+                <span className="text-sm text-gray-300 group-hover:text-bnb-yellow transition-colors">BNB Chain Mainnet</span>
+              </button>
+              <button 
+                onClick={() => setIsConnected(!isConnected)}
+                className={`px-6 py-2 border font-bold rounded-lg transition-all shadow-[0_0_15px_rgba(0,240,255,0.2)] hover:shadow-[0_0_25px_rgba(0,240,255,0.4)] ${
+                  isConnected 
+                    ? 'bg-green-500/10 border-green-500/50 text-green-400' 
+                    : 'bg-cyber-cyan/10 hover:bg-cyber-cyan/20 border-cyber-cyan/50 text-cyber-cyan'
+                }`}
+              >
+                {isConnected ? '0x7F...3A9C' : 'CONNECT WALLET'}
+              </button>
+            </div>
           </div>
           <LiveTicker />
         </header>
