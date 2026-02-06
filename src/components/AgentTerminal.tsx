@@ -110,7 +110,7 @@ export const AgentTerminal = ({ walletAddress }: { walletAddress?: string }) => 
         const fast = standard * 1.1; 
         const instant = standard * 1.5;
 
-        setTimeout(() => {
+        setTimeout(async () => {
           addLog(`🟢 Standard: ${standard.toFixed(2)} Gwei`);
           addLog(`🟡 Fast: ${fast.toFixed(2)} Gwei`);
           addLog(`🔴 Instant: ${instant.toFixed(2)} Gwei`);
@@ -128,7 +128,7 @@ export const AgentTerminal = ({ walletAddress }: { walletAddress?: string }) => 
       return; // Exit early as we handled this command specifically
     }
 
-    setTimeout(() => {
+    setTimeout(async () => {
       if (cmd.toLowerCase().includes('scan') || cmd.toLowerCase().includes('analysis')) {
         addLog('⚙️ Initiating deep scan of BNB Chain mempool...');
         setTimeout(() => addLog('🔍 Detected high volume on PancakeSwap V3'), 1000);
