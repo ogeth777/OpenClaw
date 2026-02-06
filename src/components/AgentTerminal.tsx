@@ -6,7 +6,35 @@ export const AgentTerminal = () => {
   const [logs, setLogs] = useState<string[]>([]);
   const [isProcessing, setIsProcessing] = useState(false);
   const [input, setInput] = useState('');
+  const [gasPrice, setGasPrice] = useState<string>('0.05');
   const logsEndRef = React.useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const fetchGas = async () => {
+      try {
+        const response = await fetch('https://bsc-dataseed.binance.org/', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            jsonrpc: '2.0',
+            method: 'eth_gasPrice',
+            params: [],
+            id: 1
+          })
+        });
+        const data = await response.json();
+        const gasPriceWei = parseInt(data.result, 16);
+        const gasPriceGwei = (gasPriceWei / 1e9).toFixed(2);
+        setGasPrice(gasPriceGwei);
+      } catch (err) {
+        console.error('Failed to fetch gas price:', err);
+      }
+    };
+    
+    fetchGas();
+    const interval = setInterval(fetchGas, 5000); // Update every 5 seconds
+    return () => clearInterval(interval);
+  }, []);
 
   const scrollToBottom = () => {
     logsEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -166,6 +194,10 @@ export const AgentTerminal = () => {
           </div>
         </div>
         <div className="flex gap-2">
+          <div className="px-3 py-1 rounded bg-white/5 text-xs font-mono text-gray-400 border border-white/5 flex items-center gap-2">
+            <span className="w-1.5 h-1.5 rounded-full bg-yellow-500 animate-pulse" />
+            GAS: {gasPrice} Gwei
+          </div>
           <div className="px-3 py-1 rounded bg-white/5 text-xs font-mono text-gray-400 border border-white/5">
             RAM: 64GB
           </div>
