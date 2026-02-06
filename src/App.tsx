@@ -7,6 +7,26 @@ import { Zap } from 'lucide-react';
 
 function App() {
   const [isConnected, setIsConnected] = React.useState(false);
+  const [walletAddress, setWalletAddress] = React.useState('');
+
+  const connectWallet = async () => {
+    // @ts-ignore
+    if (typeof window.ethereum !== 'undefined') {
+      try {
+        // @ts-ignore
+        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+        if (accounts.length > 0) {
+          setWalletAddress(accounts[0]);
+          setIsConnected(true);
+        }
+      } catch (error) {
+        console.error("User rejected connection", error);
+      }
+    } else {
+      // Fallback for simulation if no wallet
+      setIsConnected(!isConnected);
+    }
+  };
 
   return (
     <div className="min-h-screen relative text-white">
@@ -48,14 +68,14 @@ function App() {
                 <span className="text-sm text-gray-300 group-hover:text-bnb-yellow transition-colors">BNB Chain Mainnet</span>
               </button>
               <button 
-                onClick={() => setIsConnected(!isConnected)}
+                onClick={connectWallet}
                 className={`px-6 py-2 border font-bold rounded-lg transition-all shadow-[0_0_15px_rgba(0,240,255,0.2)] hover:shadow-[0_0_25px_rgba(0,240,255,0.4)] ${
                   isConnected 
                     ? 'bg-green-500/10 border-green-500/50 text-green-400' 
                     : 'bg-cyber-cyan/10 hover:bg-cyber-cyan/20 border-cyber-cyan/50 text-cyber-cyan'
                 }`}
               >
-                {isConnected ? '0x7F...3A9C' : 'CONNECT WALLET'}
+                {isConnected ? (walletAddress ? `${walletAddress.slice(0,6)}...${walletAddress.slice(-4)}` : '0x7F...3A9C') : 'CONNECT WALLET'}
               </button>
             </div>
           </div>
@@ -121,7 +141,7 @@ function App() {
 
           {/* Right Column: Agent Terminal */}
           <div className="lg:col-span-1">
-            <AgentTerminal />
+            <AgentTerminal walletAddress={walletAddress} />
           </div>
 
         </main>

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Terminal } from 'lucide-react';
 import { motion } from 'framer-motion';
 
-export const AgentTerminal = () => {
+export const AgentTerminal = ({ walletAddress }: { walletAddress?: string }) => {
   const [logs, setLogs] = useState<string[]>([]);
   const [isProcessing, setIsProcessing] = useState(false);
   const [input, setInput] = useState('');
@@ -156,12 +156,42 @@ export const AgentTerminal = () => {
         }, 3200);
       } else if (cmd.toLowerCase().includes('portfolio')) {
         addLog('📊 Fetching cross-chain assets...');
-        setTimeout(() => addLog('💰 BNB Chain: 14.5 BNB ($8,700)'), 800);
-        setTimeout(() => addLog('🥞 CAKE Staked: 500 CAKE ($1,200)'), 1500);
-        setTimeout(() => {
-          addLog('📈 Total Net Worth: $9,900 (+4.2% today)');
-          setIsProcessing(false);
-        }, 2200);
+        
+        if (walletAddress) {
+           setTimeout(() => addLog(`🔍 Analyzing wallet: ${walletAddress.slice(0,8)}...`), 400);
+           try {
+             const response = await fetch('https://bsc-dataseed.binance.org/', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                  jsonrpc: '2.0',
+                  method: 'eth_getBalance',
+                  params: [walletAddress, "latest"],
+                  id: 1
+                })
+              });
+              const data = await response.json();
+              const balanceWei = parseInt(data.result, 16);
+              const balanceBNB = (balanceWei / 1e18).toFixed(4);
+              
+              setTimeout(() => addLog(`💰 BNB Balance: ${balanceBNB} BNB`), 1200);
+              setTimeout(() => {
+                addLog('✅ Data verified on-chain.');
+                setIsProcessing(false);
+              }, 2000);
+           } catch (e) {
+             setTimeout(() => addLog('❌ RPC Error. Retrying...'), 1000);
+             setIsProcessing(false);
+           }
+        } else {
+          setTimeout(() => addLog('⚠️ Wallet not connected. Showing DEMO portfolio.'), 800);
+          setTimeout(() => addLog('💰 BNB Chain: 14.5 BNB ($8,700)'), 1500);
+          setTimeout(() => addLog('🥞 CAKE Staked: 500 CAKE ($1,200)'), 2200);
+          setTimeout(() => {
+            addLog('📈 Total Net Worth: $9,900 (+4.2% today)');
+            setIsProcessing(false);
+          }, 2900);
+        }
       } else if (cmd.toLowerCase().includes('sniper')) {
         addLog('🎯 Sniper Mode Activated. Watching mempool...');
         setTimeout(() => addLog('⚡ Pending liquidity add detected: $PEPE-BNB'), 1000);
