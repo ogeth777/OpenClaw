@@ -48,9 +48,7 @@ function App() {
                   className="relative w-full h-full rounded-xl border border-cyber-cyan/50 object-cover shadow-2xl"
                 />
                 <div className="absolute -bottom-2 -right-2 w-6 h-6 bg-black rounded-full border border-bnb-yellow flex items-center justify-center z-20">
-                  <svg viewBox="0 0 32 32" className="w-4 h-4 animate-spin-slow fill-bnb-yellow">
-                    <path d="M16 32C7.163 32 0 24.837 0 16S7.163 0 16 0s16 7.163 16 16-7.163 16-16 16zm-3.884-17.59l3.884 3.874 3.874-3.874-3.874-3.874-3.884 3.874zm7.758 2.29l2.308 2.308 1.564-1.564-3.872-3.872-2.299 2.299 2.299 0.829zm-7.758 0l2.299-0.829-2.299-2.299-3.872 3.872 1.564 1.564 2.308-2.308zm0-4.58l-2.308-2.308-1.564 1.564 3.872 3.872 2.299-2.299-2.299-0.829zm7.758 0l-2.299 0.829 2.299 2.299 3.872-3.872-1.564-1.564-2.308 2.308z"/>
-                  </svg>
+                  <img src="/bnb.png" alt="BNB" className="w-4 h-4 animate-spin-slow" />
                 </div>
               </div>
               <div>
@@ -66,9 +64,7 @@ function App() {
 
             <div className="flex items-center gap-4">
               <button className="hidden md:flex items-center gap-2 px-4 py-2 rounded-lg bg-black/40 border border-white/10 hover:border-bnb-yellow/50 transition-colors backdrop-blur-md group">
-                <svg viewBox="0 0 32 32" className="w-5 h-5 group-hover:scale-110 transition-transform fill-bnb-yellow">
-                  <path d="M16 32C7.163 32 0 24.837 0 16S7.163 0 16 0s16 7.163 16 16-7.163 16-16 16zm-3.884-17.59l3.884 3.874 3.874-3.874-3.874-3.874-3.884 3.874zm7.758 2.29l2.308 2.308 1.564-1.564-3.872-3.872-2.299 2.299 2.299 0.829zm-7.758 0l2.299-0.829-2.299-2.299-3.872 3.872 1.564 1.564 2.308-2.308zm0-4.58l-2.308-2.308-1.564 1.564 3.872 3.872 2.299-2.299-2.299-0.829zm7.758 0l-2.299 0.829 2.299 2.299 3.872-3.872-1.564-1.564-2.308 2.308z"/>
-                </svg>
+                <img src="/bnb.png" alt="BNB Chain" className="w-5 h-5 group-hover:scale-110 transition-transform" />
                 <span className="text-sm text-gray-300 group-hover:text-bnb-yellow transition-colors">BNB Chain Mainnet</span>
               </button>
               <button 
