@@ -9,6 +9,32 @@ import bnbLogo from './assets/bnb.png';
 function App() {
   const [isConnected, setIsConnected] = React.useState(false);
   const [walletAddress, setWalletAddress] = React.useState('');
+  const [roi, setRoi] = React.useState({ lp: '12.4', arb: '0.8' });
+
+  React.useEffect(() => {
+    const interval = setInterval(() => {
+      // Simulate live market data fluctuations
+      const lpChange = (Math.random() * 0.4 - 0.2); // +/- 0.2%
+      const arbChange = (Math.random() * 1.5 - 0.5); // -0.5% to +1.0%
+      
+      setRoi(prev => {
+        let newLp = parseFloat(prev.lp) + lpChange;
+        let newArb = parseFloat(prev.arb) + arbChange;
+        
+        // Bounds checking
+        if (newLp < 11) newLp = 11.5;
+        if (newLp > 14) newLp = 13.5;
+        if (newArb < 0) newArb = 0.2;
+        if (newArb > 5) newArb = 4.5;
+
+        return {
+          lp: newLp.toFixed(1),
+          arb: newArb.toFixed(1)
+        };
+      });
+    }, 2500);
+    return () => clearInterval(interval);
+  }, []);
 
   const connectWallet = async () => {
     // @ts-ignore
@@ -115,7 +141,7 @@ function App() {
                     </div>
                   </div>
                   <div className="text-right">
-                    <div className="text-green-400 font-mono font-bold">+12.4%</div>
+                    <div className="text-green-400 font-mono font-bold">+{roi.lp}%</div>
                     <div className="text-xs text-gray-500">Last 24h</div>
                   </div>
                 </div>
@@ -132,7 +158,7 @@ function App() {
                     </div>
                   </div>
                   <div className="text-right">
-                    <div className="text-green-400 font-mono font-bold">+0.8%</div>
+                    <div className="text-green-400 font-mono font-bold">+{roi.arb}%</div>
                     <div className="text-xs text-gray-500">Last 24h</div>
                   </div>
                 </div>
