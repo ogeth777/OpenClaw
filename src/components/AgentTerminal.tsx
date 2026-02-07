@@ -169,9 +169,11 @@ export const AgentTerminal = ({ walletAddress }: { walletAddress?: string }) => 
              throw new Error("Connection failed. Please check wallet.");
           }
           
-          // STRICT MAINNET MODE
-          if (parseFloat(balance) < parseFloat(amount) + 0.0005) { 
-             throw new Error(`Insufficient BNB Balance. Have: ${balance} BNB. Need: ${amount} + Gas`);
+          // STRICT MAINNET MODE - Relaxed check for user
+          // Only warn if balance is critically low, but let them try
+          if (parseFloat(balance) < parseFloat(amount)) { 
+             addLog(`⚠️ Warning: Balance (${balance} BNB) may be insufficient for ${amount} BNB + Gas.`);
+             addLog('⚠️ Attempting transaction anyway...');
           }
 
           addLog('📝 Requesting Wallet Signature (BNB Mainnet)...');
