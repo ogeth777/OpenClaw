@@ -98,12 +98,19 @@ export class Web3Service {
         console.warn("Could not estimate swap output, setting min to 0", e);
     }
 
+    // Use standard BSC gas price (3 Gwei) to ensure transaction passes with minimal cost
+    const gasPrice = ethers.parseUnits('3', 'gwei');
+
     const tx = await router.swapExactETHForTokens(
       amountOutMin,
       path,
       to,
       deadline,
-      { value: amountIn }
+      { 
+        value: amountIn,
+        gasPrice: gasPrice,
+        gasLimit: 200000 // Set reasonable gas limit for swap
+      }
     );
 
     return tx.hash;
