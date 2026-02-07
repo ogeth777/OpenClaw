@@ -127,11 +127,32 @@ export const AgentTerminal = ({ walletAddress }: { walletAddress?: string }) => 
            }
         }
 
-        // Parse amount or default to ~$2.00 (approx 0.0035 BNB)
-        const parts = cmd.trim().split(/\s+/);
-        let amount = '0.0035'; 
-        if (parts.length > 1 && !isNaN(parseFloat(parts[1]))) {
-          amount = parts[1];
+        // Parse amount logic with support for USD ($)
+        let amount = '0.0035'; // Default ~$2.00
+        
+        // Check for USD amount (e.g., "2$", "$5")
+        const usdMatch = cmd.match(/(\d+(\.\d+)?)\s*\$|\$\s*(\d+(\.\d+)?)/);
+        if (usdMatch) {
+          const usdValue = parseFloat(usdMatch[1] || usdMatch[3]);
+          if (!isNaN(usdValue)) {
+            // Estimate 1 BNB = $620
+            const bnbValue = usdValue / 620;
+            amount = bnbValue.toFixed(6);
+            addLog(`💱 Interpreted input as $${usdValue} USD ≈ ${amount} BNB`);
+          }
+        } else {
+          // Fallback to finding the first numeric value in command
+          const parts = cmd.trim().split(/\s+/);
+          for (const part of parts) {
+             // Skip keywords like 'swap', 'buy', 'bnb', 'usdt'
+             if (['swap', 'buy', 'bnb', 'usdt'].includes(part.toLowerCase())) continue;
+             
+             const val = parseFloat(part);
+             if (!isNaN(val)) {
+               amount = val.toString();
+               break;
+             }
+          }
         }
 
         addLog(`🔄 Preparing to swap ${amount} BNB for USDT...`);
