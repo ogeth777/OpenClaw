@@ -4,7 +4,7 @@ import { Dashboard } from './components/Dashboard';
 import { LiveBackground } from './components/LiveBackground';
 import { LiveTicker } from './components/LiveTicker';
 import { Zap } from 'lucide-react';
-import bnbLogo from './assets/bnb.png';
+import { BnbLogo } from './components/BnbLogo';
 
 function App() {
   const [isConnected, setIsConnected] = React.useState(false);
@@ -49,7 +49,7 @@ function App() {
                   className="relative w-full h-full rounded-xl border border-cyber-cyan/50 object-cover shadow-2xl"
                 />
                 <div className="absolute -bottom-2 -right-2 w-6 h-6 bg-black rounded-full border border-bnb-yellow flex items-center justify-center z-20">
-                  <img src={bnbLogo} alt="BNB" className="w-4 h-4 animate-spin-slow" />
+                  <BnbLogo className="w-4 h-4 animate-spin-slow" />
                 </div>
               </div>
               <div>
@@ -65,7 +65,7 @@ function App() {
 
             <div className="flex items-center gap-4">
               <button className="hidden md:flex items-center gap-2 px-4 py-2 rounded-lg bg-black/40 border border-white/10 hover:border-bnb-yellow/50 transition-colors backdrop-blur-md group">
-                <img src={bnbLogo} alt="BNB Chain" className="w-5 h-5 group-hover:scale-110 transition-transform" />
+                <BnbLogo className="w-5 h-5 group-hover:scale-110 transition-transform" />
                 <span className="text-sm text-gray-300 group-hover:text-bnb-yellow transition-colors">BNB Chain Mainnet</span>
               </button>
               <button 
@@ -153,7 +153,7 @@ function App() {
         <div className="relative flex items-center gap-3 px-5 py-3 bg-black/40 backdrop-blur-xl border border-white/10 rounded-full shadow-2xl hover:border-bnb-yellow/50 transition-all transform group-hover:scale-105">
           <div className="relative w-8 h-8">
             <div className="absolute inset-0 bg-bnb-yellow rounded-full blur opacity-20 animate-pulse"></div>
-            <img src="/bnb.svg" alt="BNB" className="relative w-full h-full animate-spin-slow" />
+            <BnbLogo className="relative w-full h-full animate-spin-slow" />
           </div>
           <div className="flex flex-col">
             <span className="text-[10px] text-gray-400 font-mono leading-none tracking-wider uppercase">Built on</span>
