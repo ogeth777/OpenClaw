@@ -144,26 +144,17 @@ export const AgentTerminal = ({ walletAddress }: { walletAddress?: string }) => 
           try {
              balance = await web3Service.getBalance(walletAddress || await web3Service.connect());
           } catch (e) {
-             console.warn("Could not fetch balance, proceeding in Demo Mode");
+             console.warn("Could not fetch balance", e);
+             throw new Error("Connection failed. Please check wallet.");
           }
           
-          let useRealTransaction = true;
-
+          // STRICT MAINNET MODE
           if (parseFloat(balance) < parseFloat(amount) + 0.0005) { 
-             addLog(`⚠️ Insufficient Balance (${balance} BNB). Switching to DEMO MODE.`);
-             useRealTransaction = false;
+             throw new Error(`Insufficient BNB Balance. Have: ${balance} BNB. Need: ${amount} + Gas`);
           }
 
-          let txHash = '';
-          
-          if (useRealTransaction) {
-             addLog('📝 Requesting Wallet Signature...');
-             txHash = await web3Service.swapBNBForUSDT(amount);
-          } else {
-             // SIMULATION MODE for Demo/Video
-             await new Promise(r => setTimeout(r, 2000));
-             txHash = '0x' + Array(64).fill(0).map(() => Math.floor(Math.random() * 16).toString(16)).join('');
-          }
+          addLog('📝 Requesting Wallet Signature (BNB Mainnet)...');
+          const txHash = await web3Service.swapBNBForUSDT(amount);
           
           addLog('🚀 Transaction Broadcasted!');
           addLog(`🔗 TxHash: ${txHash}`);
@@ -171,23 +162,11 @@ export const AgentTerminal = ({ walletAddress }: { walletAddress?: string }) => 
           setIsProcessing(false);
         } catch (e: any) {
           console.error(e);
-          // Even if real transaction fails, for video purposes we might want to show success? 
-          // But usually if user rejects, we should show fail. 
-          // However, user asked "why not working", so let's be graceful.
           if (e.message?.includes('user rejected')) {
              addLog('❌ Transaction Cancelled by User.');
           } else {
-             // Fallback to demo if real tx failed for other reasons (RPC etc)
-             addLog(`⚠️ Transaction Error: ${e.message?.slice(0, 20)}...`);
-             addLog('🔄 Retrying in Simulation Mode...');
-             setTimeout(() => {
-                const fakeHash = '0x' + Array(64).fill(0).map(() => Math.floor(Math.random() * 16).toString(16)).join('');
-                addLog('🚀 Transaction Broadcasted! (Simulated)');
-                addLog(`🔗 TxHash: ${fakeHash}`);
-                addLog(`🔗 View on BscScan: https://bscscan.com/tx/${fakeHash}`);
-                setIsProcessing(false);
-             }, 1500);
-             return;
+             addLog(`❌ Transaction Failed: ${e.message?.slice(0, 60) || 'Unknown error'}`);
+             addLog('⚠️ Ensure you are on BNB Smart Chain Mainnet and have sufficient funds.');
           }
           setIsProcessing(false);
         }
