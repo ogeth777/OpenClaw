@@ -150,10 +150,11 @@ export const AgentTerminal = ({ walletAddress }: { walletAddress?: string }) => 
              if (parseFloat(newBalance) === 0) {
                  throw new Error(`Insufficient funds. Balance: 0 BNB. Please deposit BNB.`);
              }
+             balance = newBalance; // Update balance variable
           }
 
-          if (parseFloat(balance) < parseFloat(amount) + 0.002) { // Amount + Gas buffer
-             throw new Error(`Insufficient BNB Balance. Need ${amount} + Gas, have ${balance}`);
+          if (parseFloat(balance) < parseFloat(amount) + 0.0005) { // Amount + Reduced Gas buffer (approx $0.30)
+             throw new Error(`Insufficient BNB Balance. Need ${amount} + ~0.0005 Gas, have ${balance}`);
           }
 
           addLog('📝 Requesting Wallet Signature...');
