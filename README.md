@@ -1,55 +1,50 @@
-# 🦁 OpenClaw - BNB Autonomous Agent
-
-![OpenClaw Banner](public/logo.jpg)
-
-> **"In the neon-lit jungle of DeFi, OpenClaw never sleeps."**
-
-OpenClaw is a next-generation AI Agent built for the **BNB Chain Hackathon**, designed to autonomously navigate the DeFi ecosystem with precision, speed, and transparency. Powered by an OODA (Observe-Orient-Decide-Act) Loop architecture, it executes strategies ranging from Liquidity Provision to Arbitrage while maintaining a "Good Vibes" safety profile via FairScale integration.
-
-## 🚀 Key Features
-
--   **🧠 Autonomous OODA Core**: Real-time market decision-making loop.
--   **💎 BNB Chain Native**: Deep integration with BNB Chain Mainnet.
--   **🛡️ FairScale Trust Score**: Automated safety checks and rug-pull protection.
--   **🎨 Cyberpunk Glassmorphism UI**: A stunning, immersive interface for monitoring agent thought processes.
--   **⚡ Real-Time Dashboard**: Live PnL tracking, active strategy visualization, and wallet integration.
-
-## 🛠️ Tech Stack
-
--   **Framework**: React 19 + Vite
--   **Language**: TypeScript
--   **Styling**: Tailwind CSS (Custom Cyberpunk Config)
--   **Icons**: Lucide React
--   **Animation**: Native CSS Animations + Pulse Effects
-
-## 📦 Installation
-
-1.  **Clone the repository**
-    ```bash
-    git clone https://github.com/ogeth777/OpenClaw.git
-    cd OpenClaw
-    ```
-
-2.  **Install dependencies**
-    ```bash
-    npm install
-    ```
-
-3.  **Run Development Server**
-    ```bash
-    npm run dev
-    ```
-
-4.  **Build for Production**
-    ```bash
-    npm run build
-    ```
-
-## 🏆 Hackathon Tracks
-
--   **BNB Chain**: Building the future of autonomous on-chain agents.
--   **Good Vibes**: Ensuring user safety and positive community impact through transparent AI logic.
+# OpenClaw 🦅
+### The Autonomous AI Agent for BNB Chain
+**"DeFi shouldn't be boring. It should be a vibe."**
 
 ---
 
-*Built with ⚡ by the OpenClaw Team*
+## 🚀 Project Overview
+OpenClaw is not just another DeFi dashboard. It is a **fully autonomous AI Agent** designed to navigate the BNB Smart Chain ecosystem with precision, safety, and style. 
+
+Built for the **Good Vibes Only Hackathon**, OpenClaw solves the "Information Overload" problem in crypto by acting as your intelligent wingman. It observes market conditions, orients itself using real-time data, decides on the best strategies, and acts—all through a sleek, cyberpunk CLI terminal.
+
+## ✨ Key Features (The "Good Vibes")
+
+### 🧠 True Agentic Workflow (OODA Loop)
+Unlike passive dashboards, OpenClaw operates on an **Observe-Orient-Decide-Act** architecture:
+- **Scan:** Continuously monitors PancakeSwap V3 pools for volume spikes.
+- **Analyze:** Interprets market sentiment (Volatility, Bullish/Bearish trends).
+- **Execute:** Performs swaps directly on BNB Mainnet with a single command.
+
+### 🛡️ FairScale™ Reputation Module
+Safety first. The built-in `rugcheck` command performs instant audits on token contracts:
+- Honeypot detection logic.
+- Liquidity lock verification.
+- Source code analysis via BscScan.
+
+### ⚡ BNB Chain Native & Optimized
+- **Real-Time RPC:** Direct integration with BNB Smart Chain Mainnet.
+- **Gas Optimized:** Smart routing ensures transactions execute at minimal cost (**1 Gwei** standard).
+- **Wallet Agnostic:** Seamless integration with **Rabby Wallet** (and others) for a superior signing experience.
+
+### 🎨 Cyberpunk Aesthetics
+We ditched the spreadsheets. OpenClaw features a **Glassmorphism UI** with "Cyber Cyan" accents, responsive animations, and a terminal interface that makes DeFi feel like hacking the mainframe.
+
+## 🛠️ Tech Stack
+- **Frontend:** React + Vite + TypeScript
+- **Styling:** Tailwind CSS (Glassmorphism/Cyberpunk Theme)
+- **Blockchain:** Ethers.js + Web3Service (Custom RPC Handler)
+- **Integration:** PancakeSwap V2/V3 Router, BscScan API
+
+## 🎮 Try It Out
+**Live Demo:** [https://openclaw-murex.vercel.app/](https://openclaw-murex.vercel.app/)
+
+### 💻 Terminal Commands to Try:
+1. `scan` - Analyze current market vibes on BNB Chain.
+2. `rugcheck` - Verify contract safety (FairScale audit).
+3. `swap 2$` - Swap $2 worth of BNB for USDT (Auto-calculated).
+4. `sniper` - Monitor mempool for new launches.
+
+---
+*Built with ❤️ and ☕ for the DoraHacks Good Vibes Only Hackathon.*
