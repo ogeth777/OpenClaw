@@ -140,7 +140,7 @@ export const AgentTerminal = ({ walletAddress }: { walletAddress?: string }) => 
         try {
           // Pre-flight balance check
           // Force fetch latest balance
-          const balance = await web3Service.getBalance(walletAddress || await web3Service.connect());
+          let balance = await web3Service.getBalance(walletAddress || await web3Service.connect());
           
           if (parseFloat(balance) === 0) {
              addLog('⚠️ Wallet Balance is 0 BNB. Checking Network...');
