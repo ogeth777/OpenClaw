@@ -116,7 +116,7 @@ export const AgentTerminal = ({ walletAddress }: { walletAddress?: string }) => 
         addLog('💸 Initiating Swap on BNB Smart Chain Mainnet...');
         
         // Parse amount or default to a safe low amount ~$0.60 (0.001 BNB) to avoid insufficient funds
-        const parts = cmd.split(' ');
+        const parts = cmd.trim().split(/\s+/);
         let amount = '0.001'; 
         if (parts.length > 1 && !isNaN(parseFloat(parts[1]))) {
           amount = parts[1];
