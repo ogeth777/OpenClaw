@@ -115,9 +115,21 @@ export const AgentTerminal = ({ walletAddress }: { walletAddress?: string }) => 
       } else if (cmd.toLowerCase().includes('swap') || cmd.toLowerCase().includes('buy')) {
         addLog('💸 Initiating Swap on BNB Smart Chain Mainnet...');
         
-        // Parse amount or default to a safe low amount ~$0.60 (0.001 BNB) to avoid insufficient funds
+        // Ensure wallet is connected and on correct network
+        if (!walletAddress) {
+           addLog('⚠️ Wallet not connected. Connecting...');
+           try {
+             await web3Service.connect();
+           } catch (e) {
+             addLog('❌ Connection failed. Please connect wallet manually.');
+             setIsProcessing(false);
+             return;
+           }
+        }
+
+        // Parse amount or default to ~$2.00 (approx 0.0035 BNB)
         const parts = cmd.trim().split(/\s+/);
-        let amount = '0.001'; 
+        let amount = '0.0035'; 
         if (parts.length > 1 && !isNaN(parseFloat(parts[1]))) {
           amount = parts[1];
         }
@@ -126,14 +138,20 @@ export const AgentTerminal = ({ walletAddress }: { walletAddress?: string }) => 
         addLog('🛣️ Routing: User -> PancakeSwap V2 -> USDT');
         
         try {
-          if (!walletAddress) {
-             addLog('⚠️ Wallet not connected. Please connect wallet first.');
-             setIsProcessing(false);
-             return;
-          }
-          
           // Pre-flight balance check
-          const balance = await web3Service.getBalance(walletAddress);
+          // Force fetch latest balance
+          const balance = await web3Service.getBalance(walletAddress || await web3Service.connect());
+          
+          if (parseFloat(balance) === 0) {
+             addLog('⚠️ Wallet Balance is 0 BNB. Checking Network...');
+             await web3Service.switchNetwork();
+             // Re-check after switch
+             const newBalance = await web3Service.getBalance(walletAddress || '');
+             if (parseFloat(newBalance) === 0) {
+                 throw new Error(`Insufficient funds. Balance: 0 BNB. Please deposit BNB.`);
+             }
+          }
+
           if (parseFloat(balance) < parseFloat(amount) + 0.002) { // Amount + Gas buffer
              throw new Error(`Insufficient BNB Balance. Need ${amount} + Gas, have ${balance}`);
           }

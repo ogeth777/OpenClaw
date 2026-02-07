@@ -21,9 +21,45 @@ export class Web3Service {
 
   async connect(): Promise<string> {
     if (!this.provider) throw new Error("No crypto wallet found");
+    
+    // Request account access
     await this.provider.send("eth_requestAccounts", []);
     this.signer = await this.provider.getSigner();
+    
+    // Force switch to BNB Chain Mainnet (Chain ID 56)
+    try {
+      await this.switchNetwork();
+    } catch (e) {
+      console.warn("Failed to switch network:", e);
+    }
+    
     return await this.signer.getAddress();
+  }
+
+  async switchNetwork(): Promise<void> {
+    if (!this.provider) return;
+    
+    const chainId = '0x38'; // 56 in hex (BNB Smart Chain Mainnet)
+    try {
+      await this.provider.send('wallet_switchEthereumChain', [{ chainId }]);
+    } catch (switchError: any) {
+      // This error code indicates that the chain has not been added to MetaMask/Wallet
+      if (switchError.code === 4902) {
+        await this.provider.send('wallet_addEthereumChain', [{
+          chainId,
+          chainName: 'BNB Smart Chain Mainnet',
+          rpcUrls: ['https://bsc-dataseed.binance.org/'],
+          blockExplorerUrls: ['https://bscscan.com/'],
+          nativeCurrency: {
+            name: 'BNB',
+            symbol: 'BNB',
+            decimals: 18
+          }
+        }]);
+      } else {
+        throw switchError;
+      }
+    }
   }
 
   async getBalance(address: string): Promise<string> {
