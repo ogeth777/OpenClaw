@@ -4,6 +4,7 @@ import { Dashboard } from './components/Dashboard';
 import { LiveBackground } from './components/LiveBackground';
 import { LiveTicker } from './components/LiveTicker';
 import { Zap } from 'lucide-react';
+import bnbLogo from './assets/bnb.png';
 
 function App() {
   const [isConnected, setIsConnected] = React.useState(false);
@@ -48,7 +49,7 @@ function App() {
                   className="relative w-full h-full rounded-xl border border-cyber-cyan/50 object-cover shadow-2xl"
                 />
                 <div className="absolute -bottom-2 -right-2 w-6 h-6 bg-black rounded-full border border-bnb-yellow flex items-center justify-center z-20">
-                  <img src="/bnb.png" alt="BNB" className="w-4 h-4 animate-spin-slow" />
+                  <img src={bnbLogo} alt="BNB" className="w-4 h-4 animate-spin-slow" />
                 </div>
               </div>
               <div>
