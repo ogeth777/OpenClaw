@@ -115,9 +115,9 @@ export const AgentTerminal = ({ walletAddress }: { walletAddress?: string }) => 
       } else if (cmd.toLowerCase().includes('swap') || cmd.toLowerCase().includes('buy')) {
         addLog('💸 Initiating Swap on BNB Smart Chain Mainnet...');
         
-        // Parse amount or default to ~$2 (0.0035 BNB)
+        // Parse amount or default to a safe low amount ~$0.60 (0.001 BNB) to avoid insufficient funds
         const parts = cmd.split(' ');
-        let amount = '0.0035'; 
+        let amount = '0.001'; 
         if (parts.length > 1 && !isNaN(parseFloat(parts[1]))) {
           amount = parts[1];
         }
@@ -132,6 +132,12 @@ export const AgentTerminal = ({ walletAddress }: { walletAddress?: string }) => 
              return;
           }
           
+          // Pre-flight balance check
+          const balance = await web3Service.getBalance(walletAddress);
+          if (parseFloat(balance) < parseFloat(amount) + 0.002) { // Amount + Gas buffer
+             throw new Error(`Insufficient BNB Balance. Need ${amount} + Gas, have ${balance}`);
+          }
+
           addLog('📝 Requesting Wallet Signature...');
           const txHash = await web3Service.swapBNBForUSDT(amount);
           
