@@ -1,5 +1,6 @@
 import { Shield, TrendingUp, Wallet, Activity } from 'lucide-react';
 import { useState, useEffect } from 'react';
+import { web3Service } from '../services/Web3Service';
 
 export const Dashboard = ({ walletAddress }: { walletAddress?: string }) => {
   const [gasPrice, setGasPrice] = useState<string>('3.1');
@@ -15,19 +16,8 @@ export const Dashboard = ({ walletAddress }: { walletAddress?: string }) => {
       }
 
       try {
-        const response = await fetch('https://bsc-dataseed.binance.org/', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            jsonrpc: '2.0',
-            method: 'eth_getBalance',
-            params: [walletAddress, "latest"],
-            id: 1
-          })
-        });
-        const data = await response.json();
-        const balanceWei = parseInt(data.result, 16);
-        const bnbVal = balanceWei / 1e18;
+        const bnbValStr = await web3Service.getBalance(walletAddress);
+        const bnbVal = parseFloat(bnbValStr);
         const bnbStr = bnbVal.toFixed(4);
         
         // Approximate USD value (BNB ~ $620)
@@ -49,22 +39,12 @@ export const Dashboard = ({ walletAddress }: { walletAddress?: string }) => {
     const fetchData = async () => {
       try {
         // Fetch Gas Price
-        const gasResponse = await fetch('https://bsc-dataseed.binance.org/', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            jsonrpc: '2.0',
-            method: 'eth_gasPrice',
-            params: [],
-            id: 1
-          })
-        });
-        const gasData = await gasResponse.json();
-        const gasPriceWei = parseInt(gasData.result, 16);
-        const gasPriceGwei = (gasPriceWei / 1e9).toFixed(2);
+        const gasPriceGwei = await web3Service.getGasPrice();
         setGasPrice(gasPriceGwei);
 
-        // Fetch Block Number
+        // Fetch Block Number (Web3Service doesn't have getBlockNumber yet, so keep fetch or add it)
+        // Let's add getBlockNumber to Web3Service or keep using fetch here for now. 
+        // For simplicity, I'll keep the fetch for block number as I didn't add it to Web3Service yet.
         const blockResponse = await fetch('https://bsc-dataseed.binance.org/', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },

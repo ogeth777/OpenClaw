@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Terminal } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { web3Service } from '../services/Web3Service';
 
 export const AgentTerminal = ({ walletAddress }: { walletAddress?: string }) => {
   const [logs, setLogs] = useState<string[]>([]);
@@ -12,20 +13,8 @@ export const AgentTerminal = ({ walletAddress }: { walletAddress?: string }) => 
   useEffect(() => {
     const fetchGas = async () => {
       try {
-        const response = await fetch('https://bsc-dataseed.binance.org/', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            jsonrpc: '2.0',
-            method: 'eth_gasPrice',
-            params: [],
-            id: 1
-          })
-        });
-        const data = await response.json();
-        const gasPriceWei = parseInt(data.result, 16);
-        const gasPriceGwei = (gasPriceWei / 1e9).toFixed(2);
-        setGasPrice(gasPriceGwei);
+        const price = await web3Service.getGasPrice();
+        setGasPrice(price);
       } catch (err) {
         console.error('Failed to fetch gas price:', err);
       }
@@ -91,22 +80,8 @@ export const AgentTerminal = ({ walletAddress }: { walletAddress?: string }) => 
       addLog('⛽ Checking BNB Chain Gas Station (Mainnet)...');
       
       try {
-        const response = await fetch('https://bsc-dataseed.binance.org/', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            jsonrpc: '2.0',
-            method: 'eth_gasPrice',
-            params: [],
-            id: 1
-          })
-        });
-        
-        const data = await response.json();
-        const gasPriceWei = parseInt(data.result, 16);
-        const gasPriceGwei = gasPriceWei / 1e9;
-        
-        const standard = gasPriceGwei;
+        const price = await web3Service.getGasPrice();
+        const standard = parseFloat(price);
         const fast = standard * 1.1; 
         const instant = standard * 1.5;
 
@@ -139,13 +114,37 @@ export const AgentTerminal = ({ walletAddress }: { walletAddress?: string }) => 
         }, 3000);
       } else if (cmd.toLowerCase().includes('swap') || cmd.toLowerCase().includes('buy')) {
         addLog('💸 Initiating Swap on BNB Smart Chain Mainnet...');
-        setTimeout(() => addLog('🛣️ Routing: User -> PancakeSwap V3 -> 1inch Aggregator'), 1000);
-        setTimeout(() => addLog('⛽ Estimating Mainnet Gas: 0.0004 BNB ($0.24)'), 2000);
-        setTimeout(() => {
+        
+        // Parse amount or default to ~$2 (0.0035 BNB)
+        const parts = cmd.split(' ');
+        let amount = '0.0035'; 
+        if (parts.length > 1 && !isNaN(parseFloat(parts[1]))) {
+          amount = parts[1];
+        }
+
+        addLog(`🔄 Preparing to swap ${amount} BNB for USDT...`);
+        addLog('🛣️ Routing: User -> PancakeSwap V2 -> USDT');
+        
+        try {
+          if (!walletAddress) {
+             addLog('⚠️ Wallet not connected. Please connect wallet first.');
+             setIsProcessing(false);
+             return;
+          }
+          
           addLog('📝 Requesting Wallet Signature...');
-          addLog('🚀 Transaction Broadcasted! TxHash: https://bscscan.com/tx/0x7f2a...3b9c');
+          const txHash = await web3Service.swapBNBForUSDT(amount);
+          
+          addLog('🚀 Transaction Broadcasted!');
+          addLog(`🔗 TxHash: ${txHash}`);
+          addLog(`🔗 View on BscScan: https://bscscan.com/tx/${txHash}`);
           setIsProcessing(false);
-        }, 3000);
+        } catch (e: any) {
+          console.error(e);
+          addLog(`❌ Transaction Failed: ${e.message?.slice(0, 50) || 'Unknown error'}`);
+          setIsProcessing(false);
+        }
+
       } else if (cmd.toLowerCase().includes('rugcheck')) {
         addLog('🛡️ Initiating FairScale Audit (Mainnet)...');
         setTimeout(() => addLog('🔍 Querying BscScan Mainnet API for Contract Source...'), 800);
@@ -161,21 +160,8 @@ export const AgentTerminal = ({ walletAddress }: { walletAddress?: string }) => 
         if (walletAddress) {
            setTimeout(() => addLog(`🔍 Scanning Wallet: ${walletAddress.slice(0,8)}...`), 400);
            try {
-             const response = await fetch('https://bsc-dataseed.binance.org/', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                  jsonrpc: '2.0',
-                  method: 'eth_getBalance',
-                  params: [walletAddress, "latest"],
-                  id: 1
-                })
-              });
-              const data = await response.json();
-              const balanceWei = parseInt(data.result, 16);
-              const balanceBNB = (balanceWei / 1e18).toFixed(4);
-              
-              setTimeout(() => addLog(`💰 BNB Balance: ${balanceBNB} BNB`), 1200);
+              const balance = await web3Service.getBalance(walletAddress);
+              setTimeout(() => addLog(`💰 BNB Balance: ${balance} BNB`), 1200);
               setTimeout(() => {
                 addLog('✅ Portfolio synced with BNB Chain.');
                 setIsProcessing(false);
