@@ -102,7 +102,7 @@ function App() {
                     : 'bg-cyber-cyan/10 hover:bg-cyber-cyan/20 border-cyber-cyan/50 text-cyber-cyan'
                 }`}
               >
-                {isConnected ? (walletAddress ? `${walletAddress.slice(0,6)}...${walletAddress.slice(-4)}` : '0x7F...3A9C') : 'CONNECT WALLET'}
+                {isConnected ? (walletAddress ? `${walletAddress.slice(0,6)}...${walletAddress.slice(-4)}` : '0x7F...3A9C') : 'CONNECT RABBY'}
               </button>
             </div>
           </div>
