@@ -64,7 +64,7 @@ function App() {
 
             <div className="flex items-center gap-4">
               <button className="hidden md:flex items-center gap-2 px-4 py-2 rounded-lg bg-black/40 border border-white/10 hover:border-bnb-yellow/50 transition-colors backdrop-blur-md group">
-                <img src="/bnb.png" alt="BNB Chain" className="w-5 h-5 group-hover:scale-110 transition-transform" />
+                <img src={bnbLogo} alt="BNB Chain" className="w-5 h-5 group-hover:scale-110 transition-transform" />
                 <span className="text-sm text-gray-300 group-hover:text-bnb-yellow transition-colors">BNB Chain Mainnet</span>
               </button>
               <button 
